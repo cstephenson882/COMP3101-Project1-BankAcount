@@ -16,7 +16,25 @@ Course: COMP3101 - Operating Systems
 /*
 Code overview
 
-The user shall enter a value that is to be the intial value of the account 
+1)  The user shall enter a value that is to be the intial value of the account.
+
+2)  The code then checks to ensure that the input is an actual number.
+
+3)  The code them uses a series of read and write operations synchronous with with 
+    the application of semaphores to achived the balance in the account.dat file and the 
+    transaction record in the transaction.dat file.
+
+4)  Each code uses a semaphore_wait is used to check if the semaphore id is 1 or 0. If is 0 this indicatees that a process is alread working in its critical section and hence the checking process must wait on that process to be completed. If the check is done and the semaphore id is 1 then the checking process my porceed with the execution of its critical section.
+
+5)  Hence as a trivial example the user enters 0 for the input. The code then checks that 0 is a 
+    number and converts it to an integer. Assuming child1 runs first the sem id is set to 0 to
+    prevent child2 updating the account balance while child1 is still operating.(and visa versal 
+    if child2 enters first). Following this child1 does a semaphore_signal and increments the 
+    sem id, allowinf child2 to proceed. Both child reads and close the files storing the updated 
+    accunt balance to ensure data integrity.
+    
+6)  Lastly, there is a debug_() funtion added with the intent of using for debugging purpoases
+    by printing to screen.
 */
 
 
@@ -180,7 +198,7 @@ int main() {
             }
         
         // debug display's the content of transaction.dat (debugging purposses)
-         //debug_();
+        // debug_();
     }
 
     return 0;
